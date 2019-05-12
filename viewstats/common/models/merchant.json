@@ -47,9 +47,14 @@
         }
       ],
       "returns": [{
-        "arg" : "status",
-        "type" : "string"
-      }],
+        "arg" : "toUpdate",
+        "type" : "array"
+      },
+        {
+          "arg" : "toInsert",
+          "type" : "array"
+        }
+      ],
       "description": "push for synchronization",
       "http": [
         {
