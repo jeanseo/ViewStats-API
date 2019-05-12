@@ -1,0 +1,62 @@
+{
+  "name": "Merchant",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "defaultFn": "guid"
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "picturePath": {
+      "type": "string"
+    },
+    "creationDate": {
+      "type": "date"
+    },
+    "lastUpdated": {
+      "type": "date"
+    },
+    "deleted": {
+      "type": "boolean"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {
+    "push": {
+      "accepts": [
+        {
+          "arg": "data",
+          "type": "array",
+          "http": {
+            "source"
+          :  "body"},
+          "required": false,
+          "description": "array de merchant"
+        }
+      ],
+      "returns": [{
+        "arg" : "status",
+        "type" : "string"
+      }],
+      "description": "push for synchronization",
+      "http": [
+        {
+          "path": "/push",
+          "verb": "post"
+        }
+      ]
+    }
+  }
+}
