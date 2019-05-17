@@ -56,6 +56,14 @@
         {
           "arg" : "toInsert",
           "type" : "array"
+        },
+        {
+          "arg" : "picToUpload",
+          "type" : "array"
+        },
+        {
+          "arg" : "picToDownload",
+          "type" : "array"
         }
       ],
       "description": "push for synchronization",
