@@ -17,6 +17,8 @@ module.exports = function(Merchant) {
     let toInsert = [];
     let clientToUpdate = [];
     let clientToInsert = [];
+    let picToUpload = [];
+    let picToDownload = [];
     let i=0;
   // On récupère la date de dernière synchro du client
       let lastSync = new Date((data.lastSync));
@@ -40,6 +42,10 @@ module.exports = function(Merchant) {
       });
       promise2.then((value)=>{
         clientToInsert = value;
+        cientToInsert.forEach((merchant)=>{
+          if (merchant.picture!=null)
+            picToDownload.push(merchant.picture);
+        });
       });
     console.log("Résultat de la requête de populate du toInsert\n"+JSON.stringify(clientToInsert));
 
@@ -83,15 +89,26 @@ module.exports = function(Merchant) {
               //Update
               console.log("on fait l'update\n" + element.firstName);
               toUpdate.push(element);
+              if (element.lastUpdated != null && element.lastUpdated != merchant.lastUpdated){
+                picToUpload.push(element.picture);
+                //TODO Supprimer le fichier merchant.picture du serveur
+              }
+              
             } else if(element.lastUpdated < merchant.lastUpdated.toISOString()){
               //Recupérer l'objet dans une liste
               console.log("on garde\n" + merchant.firstName);
               clientToUpdate.push(element);
+              if (merchant.lastUpdated != null && element.lastUpdated != merchant.lastUpdated){
+                picToUpload.push(merchant.picture);
+                //TODO Ajouter dans une liste les fichiers à effacer sur le client, an ajoutant element.picture
+              }
             }
           } else {
             //Faire un insert
             console.log("on crée\n" + element.firstName);
             toInsert.push(element);
+            if (element.lastUpdated != null){
+                picToUpload.push(element.picture);
           }
           i++;
           //Lorsque toutes les actions sont terminées
@@ -120,7 +137,7 @@ module.exports = function(Merchant) {
             }
 
             console.log("-----TO UPDATE--------\n"+JSON.stringify(toUpdate)+"\n---TO INSERT---\n"+JSON.stringify(toInsert)+"\n---TO PULL---\n"+JSON.stringify(clientToUpdate));
-            callback(null,clientToUpdate,clientToInsert);
+            callback(null,clientToUpdate,clientToInsert,picToUpload,picToDownload);
           }
         });
     });
